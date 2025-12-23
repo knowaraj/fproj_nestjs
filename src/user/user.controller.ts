@@ -11,13 +11,13 @@ export class UserController {
     private readonly userRepository: Repository<User>,
   ) {}
     @Get()
-    findAll(@Query('location') location:string){
-        return ({location})
+    findAll(){
+        return this.userRepository.find();
     }
 
     @Get(':id')
     findOne(@Param('id') id:string){
-        return({id})
+        return this.userRepository.findOneBy({id: +id});
     }
 
     @Post()
