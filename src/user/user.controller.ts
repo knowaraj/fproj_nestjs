@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,6 +21,7 @@ export class UserController {
     }
 
     @Post()
+    @UsePipes(ValidationPipe)
     async create(@Body() createUserDto : CreateUserDto){
         const user = this.userRepository.create(createUserDto);
         await this.userRepository.save(user);
