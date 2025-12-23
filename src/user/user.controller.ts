@@ -23,6 +23,10 @@ export class UserController {
     @Post()
     @UsePipes(ValidationPipe)
     async create(@Body() createUserDto : CreateUserDto){
+        const existingUser = await this.userRepository.findOneBy({email: createUserDto.email});
+        if (existingUser) {
+            throw new Error('User with this email already exists');
+        }
         const user = this.userRepository.create(createUserDto);
         await this.userRepository.save(user);
         return user;
